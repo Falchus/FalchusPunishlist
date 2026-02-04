@@ -1,0 +1,8 @@
+name: FalchusPunishlist
+version: ${project.version}
+description: Protect your server without staff.
+main: com.falchus.punishlist.spigot.Main
+author: Falchus
+website: falchus.com/punishlist
+
+depend: [FalchusLib]

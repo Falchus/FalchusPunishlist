@@ -1,0 +1,10 @@
+{
+  "id": "falchuspunishlist",
+  "name": "FalchusPunishlist",
+  "version": "${project.version}",
+  "main": "com.falchus.punishlist.velocity.Main",
+  "authors": ["Falchus"],
+  "description": "Protect your server without staff.",
+  "url": "https://falchus.com/punishlist",
+  "dependencies": [{"id": "falchuslib", "optional": false}]
+}
