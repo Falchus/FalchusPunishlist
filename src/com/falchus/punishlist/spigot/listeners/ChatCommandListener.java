@@ -37,7 +37,7 @@ public class ChatCommandListener implements Listener {
         		|| message.startsWith("/whisper")
         		|| message.startsWith("/reply")
         		|| message.startsWith("/r")) {
-        	String response = HTTPRequest.get("https://api." + FalchusPunishlist.website + "/punishlist/" + uuid.toString());
+        	String response = HTTPRequest.get("https://api." + FalchusPunishlist.website + "/player/" + uuid.toString());
         	if (response != null) {
         		JsonObject obj = new Gson().fromJson(response, JsonObject.class);
         		if (obj.has("mute")) {
