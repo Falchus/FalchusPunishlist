@@ -16,11 +16,13 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
+import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 @Plugin(id = "falchuscore",
 		name = "FalchusCore",
@@ -69,6 +71,14 @@ public class Main {
 		getProxy().getScheduler().buildTask(this, () -> {
 			chatListener = new ChatCommandListener();
 			joinQuitListener = new JoinQuitListener();
+			
+			getProxy().getScheduler().buildTask(this, () -> {
+				for (Player player : getProxy().getAllPlayers()) {
+					FalchusPunishlist.ban(player.getUniqueId(), string -> {
+						player.disconnect(LegacyComponentSerializer.legacySection().deserialize(string));
+					});
+				}
+			}).repeat(1, TimeUnit.MINUTES).schedule();
 		}).delay(1, TimeUnit.MILLISECONDS).schedule();
 	}
 	

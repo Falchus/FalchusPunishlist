@@ -1,6 +1,7 @@
 package com.falchus.punishlist.spigot;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.falchus.lib.minecraft.spigot.utils.Metrics;
@@ -30,6 +31,14 @@ public class Main extends JavaPlugin {
 		Bukkit.getScheduler().runTask(this, () -> {
 			chatListener = new ChatCommandListener();
 			joinQuitListener = new JoinQuitListener();
+			
+			Bukkit.getScheduler().runTaskTimer(this, () -> {
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					FalchusPunishlist.ban(player.getUniqueId(), string -> {
+						player.kickPlayer(string);
+					});
+				}
+			}, 0, 1200);
 		});
 	}
 	
