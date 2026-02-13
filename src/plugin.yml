@@ -4,6 +4,7 @@ api-version: 1.13
 description: Protect your server without staff.
 main: com.falchus.punishlist.spigot.Main
 author: Falchus
+authors: [Kalibrier]
 website: falchus.com/punishlist
 
 depend: [FalchusLib]
