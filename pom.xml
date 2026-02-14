@@ -11,6 +11,17 @@
   	<lombok.version>1.18.42</lombok.version>
   </properties>
   
+  <distributionManagement>
+	<repository>
+		<id>falchus.com</id>
+		<url>https://repo.falchus.com/releases</url>
+	</repository>
+	<snapshotRepository>
+		<id>falchus.com</id>
+		<url>https://repo.falchus.com/snapshots</url>
+	</snapshotRepository>
+  </distributionManagement>
+  
   <repositories>
     <repository>
         <id>papermc-repo</id>
