@@ -16,8 +16,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Main extends JavaPlugin {
 
-	private FalchusPunishlist main;
-	private static Main instance;
+	FalchusPunishlist main;
+	static Main instance;
 	
 	ChatCommandListener chatListener;
 	JoinQuitListener joinQuitListener;
