@@ -1,10 +1,13 @@
 package com.falchus.punishlist.spigot;
 
+import java.util.concurrent.TimeUnit;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.falchus.lib.minecraft.spigot.utils.Metrics;
+import com.falchus.lib.task.Task;
 import com.falchus.punishlist.FalchusPunishlist;
 import com.falchus.punishlist.spigot.listeners.*;
 
@@ -32,13 +35,13 @@ public class Main extends JavaPlugin {
 			chatListener = new ChatCommandListener();
 			joinQuitListener = new JoinQuitListener();
 			
-			Bukkit.getScheduler().runTaskTimer(this, () -> {
+			Task.runTaskTimer(() -> {
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					FalchusPunishlist.ban(player.getUniqueId(), string -> {
 						player.kickPlayer(string);
 					});
 				}
-			}, 0, 1200);
+			}, 1, TimeUnit.MINUTES);
 		});
 	}
 	
