@@ -2,14 +2,13 @@ package com.falchus.punishlist.velocity.listeners;
 
 import java.util.UUID;
 
+import com.falchus.lib.minecraft.utils.AdventureUtils;
 import com.falchus.punishlist.FalchusPunishlist;
 import com.falchus.punishlist.velocity.Main;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
 import com.velocitypowered.api.event.player.PlayerChatEvent.ChatResult;
 import com.velocitypowered.api.proxy.Player;
-
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class ChatCommandListener {
 
@@ -34,7 +33,7 @@ public class ChatCommandListener {
         		|| message.startsWith("/reply")
         		|| message.startsWith("/r")) {
         	FalchusPunishlist.mute(uuid, string -> {
-        		player.sendMessage(LegacyComponentSerializer.legacySection().deserialize(string));
+        		player.sendMessage(AdventureUtils.legacy(string));
         		event.setResult(ChatResult.denied());
         	});
         }

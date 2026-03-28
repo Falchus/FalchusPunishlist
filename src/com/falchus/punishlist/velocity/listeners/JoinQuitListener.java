@@ -1,9 +1,8 @@
 package com.falchus.punishlist.velocity.listeners;
 
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-
 import java.util.UUID;
 
+import com.falchus.lib.minecraft.utils.AdventureUtils;
 import com.falchus.punishlist.FalchusPunishlist;
 import com.falchus.punishlist.velocity.Main;
 import com.velocitypowered.api.event.ResultedEvent.ComponentResult;
@@ -23,7 +22,7 @@ public class JoinQuitListener {
     	UUID uuid = event.getPlayer().getUniqueId();
 		
     	FalchusPunishlist.ban(uuid, string -> {
-    		event.setResult(ComponentResult.denied(LegacyComponentSerializer.legacySection().deserialize(string)));
+    		event.setResult(ComponentResult.denied(AdventureUtils.legacy(string)));
     	});
     }
 }

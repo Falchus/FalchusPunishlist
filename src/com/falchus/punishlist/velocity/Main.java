@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 
+import com.falchus.lib.minecraft.utils.AdventureUtils;
 import com.falchus.lib.minecraft.velocity.utils.Metrics;
 import com.falchus.punishlist.FalchusPunishlist;
 import com.falchus.punishlist.velocity.listeners.*;
@@ -22,7 +23,6 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 @Plugin(id = "falchuscore",
 		name = "FalchusCore",
@@ -42,7 +42,7 @@ public class Main {
 	final Metrics.Factory metricsFactory;
 	
 	FalchusPunishlist main;
-	static Main instance;
+	@Getter static Main instance;
     
     ChatCommandListener chatListener;
     JoinQuitListener joinQuitListener;
@@ -75,14 +75,10 @@ public class Main {
 			getProxy().getScheduler().buildTask(this, () -> {
 				for (Player player : getProxy().getAllPlayers()) {
 					FalchusPunishlist.ban(player.getUniqueId(), string -> {
-						player.disconnect(LegacyComponentSerializer.legacySection().deserialize(string));
+						player.disconnect(AdventureUtils.legacy(string));
 					});
 				}
 			}).repeat(1, TimeUnit.MINUTES).schedule();
 		}).delay(1, TimeUnit.MILLISECONDS).schedule();
-	}
-	
-	public static Main getInstance() {
-		return instance;
 	}
 }

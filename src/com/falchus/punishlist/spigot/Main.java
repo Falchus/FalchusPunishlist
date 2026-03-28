@@ -20,7 +20,7 @@ import lombok.experimental.FieldDefaults;
 public class Main extends JavaPlugin {
 
 	FalchusPunishlist main;
-	static Main instance;
+	@Getter static Main instance;
 	
 	ChatCommandListener chatListener;
 	JoinQuitListener joinQuitListener;
@@ -43,9 +43,5 @@ public class Main extends JavaPlugin {
 				}
 			}, 1, TimeUnit.MINUTES);
 		});
-	}
-	
-	public static Main getInstance() {
-		return instance;
 	}
 }
