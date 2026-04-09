@@ -35,7 +35,7 @@ public class Main extends JavaPlugin {
 			chatListener = new ChatCommandListener();
 			joinQuitListener = new JoinQuitListener();
 			
-			Task.runTaskTimer(() -> {
+			Task.runTimer(() -> {
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					FalchusPunishlist.ban(player.getUniqueId(), string -> {
 						player.kickPlayer(string);
