@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 
 import com.falchus.lib.minecraft.utils.AdventureUtils;
 import com.falchus.lib.minecraft.velocity.utils.Metrics;
+import com.falchus.lib.task.Task;
 import com.falchus.punishlist.FalchusPunishlist;
 import com.falchus.punishlist.velocity.listeners.*;
 import com.google.inject.Inject;
@@ -72,13 +73,13 @@ public class Main {
 			chatListener = new ChatCommandListener();
 			joinQuitListener = new JoinQuitListener();
 			
-			getProxy().getScheduler().buildTask(this, () -> {
+			Task.runTimer(() -> {
 				for (Player player : getProxy().getAllPlayers()) {
 					FalchusPunishlist.ban(player.getUniqueId(), string -> {
 						player.disconnect(AdventureUtils.legacy(string));
 					});
 				}
-			}).repeat(1, TimeUnit.MINUTES).schedule();
+			}, 1, TimeUnit.MINUTES);
 		}).delay(1, TimeUnit.MILLISECONDS).schedule();
 	}
 }
