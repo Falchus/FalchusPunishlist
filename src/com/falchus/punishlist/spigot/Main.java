@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.falchus.lib.minecraft.spigot.utils.Metrics;
 import com.falchus.lib.task.Task;
-import com.falchus.punishlist.FalchusPunishlist;
+import com.falchus.punishlist.*;
 import com.falchus.punishlist.spigot.listeners.*;
 
 import lombok.AccessLevel;
