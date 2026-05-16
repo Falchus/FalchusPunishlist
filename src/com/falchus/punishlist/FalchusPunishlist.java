@@ -22,7 +22,7 @@ public class FalchusPunishlist {
 	public static final String discord = "discord." + website;
 	
 	public static void ban(UUID uuid, Consumer<String> consumer) {
-    	String response = HTTPRequest.get("https://api." + FalchusPunishlist.website + "/player/" + uuid.toString());
+    	String response = HTTPRequest.get("https://mc-api." + FalchusPunishlist.website + "/player/" + uuid.toString());
     	if (response != null) {
     		JsonObject obj = new Gson().fromJson(response, JsonObject.class);
     		if (obj.has("ban")) {
@@ -54,7 +54,7 @@ public class FalchusPunishlist {
 	}
 	
 	public static void mute(UUID uuid, Consumer<String> consumer) {
-    	String response = HTTPRequest.get("https://api." + FalchusPunishlist.website + "/player/" + uuid.toString());
+    	String response = HTTPRequest.get("https://mc-api." + FalchusPunishlist.website + "/player/" + uuid.toString());
     	if (response != null) {
     		JsonObject obj = new Gson().fromJson(response, JsonObject.class);
     		if (obj.has("mute")) {
