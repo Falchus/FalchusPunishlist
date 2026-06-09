@@ -73,13 +73,13 @@ public class Main {
 			chatListener = new ChatCommandListener();
 			joinQuitListener = new JoinQuitListener();
 			
-			Task.runTimer(() -> {
+			Task.of(() -> {
 				for (Player player : getProxy().getAllPlayers()) {
 					FalchusPunishlist.ban(player.getUniqueId(), string -> {
 						player.disconnect(AdventureUtils.legacy(string));
 					});
 				}
-			}, 1, TimeUnit.MINUTES);
+			}).runTimer(1, TimeUnit.MINUTES);
 		}).delay(1, TimeUnit.MILLISECONDS).schedule();
 	}
 }
