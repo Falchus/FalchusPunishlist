@@ -12,7 +12,7 @@ import com.velocitypowered.api.proxy.Player;
 
 public class ChatCommandListener {
 
-    private final Main plugin = Main.getInstance();
+    private static final Main plugin = Main.getInstance();
     
     public ChatCommandListener() {
     	plugin.getProxy().getEventManager().register(plugin, this);

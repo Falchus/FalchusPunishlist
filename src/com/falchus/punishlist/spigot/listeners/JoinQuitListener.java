@@ -13,7 +13,7 @@ import com.falchus.punishlist.spigot.Main;
 
 public class JoinQuitListener implements Listener {
 
-    private final Main plugin = Main.getInstance();
+    private static final Main plugin = Main.getInstance();
     
     public JoinQuitListener() {
 		Bukkit.getPluginManager().registerEvents(this, plugin);

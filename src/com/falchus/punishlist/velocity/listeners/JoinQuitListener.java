@@ -11,7 +11,7 @@ import com.velocitypowered.api.event.connection.LoginEvent;
 
 public class JoinQuitListener {
 
-    private final Main plugin = Main.getInstance();
+    private static final Main plugin = Main.getInstance();
     
     public JoinQuitListener() {
     	plugin.getProxy().getEventManager().register(plugin, this);
