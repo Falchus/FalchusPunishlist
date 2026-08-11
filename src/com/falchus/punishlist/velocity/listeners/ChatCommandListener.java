@@ -23,6 +23,7 @@ public class ChatCommandListener {
     public void onChat(PlayerChatEvent event) {
     	Player player = event.getPlayer();
     	UUID uuid = player.getUniqueId();
+    	String ip = player.getRemoteAddress().getAddress().getHostAddress();
         String message = event.getMessage();
         
         if (!message.startsWith("/")
@@ -32,7 +33,7 @@ public class ChatCommandListener {
         		|| message.startsWith("/whisper")
         		|| message.startsWith("/reply")
         		|| message.startsWith("/r")) {
-        	FalchusPunishlist.mute(uuid, string -> {
+        	FalchusPunishlist.mute(uuid, ip, string -> {
         		player.sendMessage(AdventureUtils.legacy(string));
         		event.setResult(ChatResult.denied());
         	});

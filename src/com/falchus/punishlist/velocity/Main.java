@@ -75,7 +75,7 @@ public class Main {
 			
 			Task.of(() -> {
 				for (Player player : getProxy().getAllPlayers()) {
-					FalchusPunishlist.ban(player.getUniqueId(), string -> {
+					FalchusPunishlist.ban(player.getUniqueId(), player.getRemoteAddress().getAddress().getHostAddress(), string -> {
 						player.disconnect(AdventureUtils.legacy(string));
 					});
 				}

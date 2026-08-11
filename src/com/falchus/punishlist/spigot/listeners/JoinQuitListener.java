@@ -22,8 +22,9 @@ public class JoinQuitListener implements Listener {
     @EventHandler
     public void onAsyncPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
     	UUID uuid = event.getUniqueId();
+    	String ip = event.getAddress().getHostAddress();
 		
-    	FalchusPunishlist.ban(uuid, string -> {
+    	FalchusPunishlist.ban(uuid, ip, string -> {
     		event.setLoginResult(Result.KICK_BANNED);
     		event.setKickMessage(string);
     	});

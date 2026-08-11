@@ -23,6 +23,7 @@ public class ChatCommandListener implements Listener {
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
     	Player player = event.getPlayer();
     	UUID uuid = player.getUniqueId();
+    	String ip = player.getAddress().getAddress().getHostAddress();
         String message = event.getMessage();
         
         if (!message.startsWith("/")
@@ -32,7 +33,7 @@ public class ChatCommandListener implements Listener {
         		|| message.startsWith("/whisper")
         		|| message.startsWith("/reply")
         		|| message.startsWith("/r")) {
-        	FalchusPunishlist.mute(uuid, string -> {
+        	FalchusPunishlist.mute(uuid, ip, string -> {
         		player.sendMessage(string);
         		event.setCancelled(true);
         	});

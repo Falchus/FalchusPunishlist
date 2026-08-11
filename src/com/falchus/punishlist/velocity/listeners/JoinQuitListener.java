@@ -8,6 +8,7 @@ import com.falchus.punishlist.velocity.Main;
 import com.velocitypowered.api.event.ResultedEvent.ComponentResult;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.LoginEvent;
+import com.velocitypowered.api.proxy.Player;
 
 public class JoinQuitListener {
 
@@ -19,9 +20,11 @@ public class JoinQuitListener {
     
     @Subscribe
     public void onLogin(LoginEvent event) {
-    	UUID uuid = event.getPlayer().getUniqueId();
+    	Player player = event.getPlayer();
+    	UUID uuid = player.getUniqueId();
+    	String ip = player.getRemoteAddress().getAddress().getHostAddress();
 		
-    	FalchusPunishlist.ban(uuid, string -> {
+    	FalchusPunishlist.ban(uuid, ip, string -> {
     		event.setResult(ComponentResult.denied(AdventureUtils.legacy(string)));
     	});
     }
