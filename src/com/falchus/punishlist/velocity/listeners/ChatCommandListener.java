@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.falchus.lib.minecraft.utils.AdventureUtils;
 import com.falchus.punishlist.FalchusPunishlist;
 import com.falchus.punishlist.velocity.Main;
+import com.velocitypowered.api.event.EventTask;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
 import com.velocitypowered.api.event.player.PlayerChatEvent.ChatResult;
@@ -20,23 +21,27 @@ public class ChatCommandListener {
     
     @SuppressWarnings("deprecation")
 	@Subscribe
-    public void onChat(PlayerChatEvent event) {
+    public EventTask onChat(PlayerChatEvent event) {
     	Player player = event.getPlayer();
     	UUID uuid = player.getUniqueId();
     	String ip = player.getRemoteAddress().getAddress().getHostAddress();
         String message = event.getMessage();
         
-        if (!message.startsWith("/")
-        		|| message.startsWith("/message")
-        		|| message.startsWith("/msg")
-        		|| message.startsWith("/tell")
-        		|| message.startsWith("/whisper")
-        		|| message.startsWith("/reply")
-        		|| message.startsWith("/r")) {
-        	FalchusPunishlist.mute(uuid, ip, string -> {
-        		player.sendMessage(AdventureUtils.legacy(string));
-        		event.setResult(ChatResult.denied());
-        	});
+        if (message.startsWith("/")
+        		&& !message.startsWith("/message")
+        		&& !message.startsWith("/msg")
+        		&& !message.startsWith("/tell")
+        		&& !message.startsWith("/whisper")
+        		&& !message.startsWith("/reply")
+        		&& !message.startsWith("/r")) {
+        	return null;
         }
+        
+        return EventTask.async(() -> {
+	    	FalchusPunishlist.mute(uuid, ip, string -> {
+	    		player.sendMessage(AdventureUtils.legacy(string));
+	    		event.setResult(ChatResult.denied());
+	    	});
+        });
     }
 }
