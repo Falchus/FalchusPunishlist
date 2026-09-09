@@ -31,17 +31,15 @@ public class Main extends JavaPlugin {
 		instance = this;
 		new Metrics(this, 29316);
 
-		Bukkit.getScheduler().runTask(this, () -> {
-			chatListener = new ChatCommandListener();
-			joinQuitListener = new JoinQuitListener();
-			
-			SpigotTask.of(() -> {
-				for (Player player : Bukkit.getOnlinePlayers()) {
-					FalchusPunishlist.ban(player.getUniqueId(), player.getAddress().getAddress().getHostAddress(), string -> {
-						player.kickPlayer(string);
-					});
-				}
-			}).runTimer(1, TimeUnit.MINUTES);
-		});
+		chatListener = new ChatCommandListener();
+		joinQuitListener = new JoinQuitListener();
+		
+		SpigotTask.of(() -> {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				FalchusPunishlist.ban(player.getUniqueId(), player.getAddress().getAddress().getHostAddress(), string -> {
+					player.kickPlayer(string);
+				});
+			}
+		}).runTimer(1, TimeUnit.MINUTES);
 	}
 }

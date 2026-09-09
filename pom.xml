@@ -28,6 +28,10 @@
         <url>https://repo.papermc.io/repository/maven-public/</url>
     </repository>
   	<repository>
+  		<id>elmakers-repo</id>
+  		<url>https://maven.elmakers.com/repository/</url>
+  	</repository>
+  	<repository>
   		<id>falchus.com</id>
   		<url>https://repo.falchus.com/releases</url>
   	</repository>
@@ -56,7 +60,7 @@
 	</dependency>
 	<dependency>
 		<groupId>org.spigotmc</groupId>
-		<artifactId>spigot-api</artifactId>
+		<artifactId>spigot</artifactId>
 		<version>1.8.8-R0.1-SNAPSHOT</version>
 		<scope>provided</scope>
 	</dependency>
