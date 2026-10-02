@@ -37,11 +37,12 @@ public class ChatCommandListener {
         	return null;
         }
         
-        return EventTask.async(() -> {
-	    	FalchusPunishlist.mute(uuid, ip, string -> {
+        return EventTask.resumeWhenComplete(
+	    	FalchusPunishlist.mute(uuid, ip).thenAccept(string -> {
+	    		if (string == null) return;
 	    		player.sendMessage(AdventureUtils.legacy(string));
 	    		event.setResult(ChatResult.denied());
-	    	});
-        });
+	    	})
+	    );
     }
 }

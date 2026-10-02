@@ -3,8 +3,8 @@ package com.falchus.punishlist;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
-import java.util.function.Consumer;
 
+import com.falchus.lib.task.Promise;
 import com.falchus.lib.utils.http.HTTPRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -21,63 +21,61 @@ public class FalchusPunishlist {
 	public static final String website = "falchus.com";
 	public static final String discord = "discord." + website;
 	
-	public static void ban(UUID uuid, String ip, Consumer<String> consumer) {
-    	String response = HTTPRequest.get("https://mc-api." + FalchusPunishlist.website + "/player/" + uuid.toString() + "?ip=" + ip);
-    	if (response != null) {
+	public static Promise<String> ban(UUID uuid, String ip) {
+		return Promise.supplyAsync(() -> {
+	    	String response = HTTPRequest.get("https://mc-api." + FalchusPunishlist.website + "/player/" + uuid.toString() + "?ip=" + ip);
+	    	if (response == null) return null;
+	    	
     		JsonObject obj = new Gson().fromJson(response, JsonObject.class);
-    		if (obj.has("ban")) {
-    			JsonObject ban = obj.getAsJsonObject("ban");
-    			if (ban.has("active") && ban.get("active").getAsBoolean()) {
-	    			String reason = ban.has("reason")
-	    					? ban.get("reason").getAsString()
-	    					: "-";
-	    			long until = ban.has("until")
-	    					? ban.get("until").getAsLong()
-	    					: 0;
-	    			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-	    			
-	    			consumer.accept(
-			    		"§f§m--------------------§r" +
-	    				"\n\n" +
-	    				FalchusPunishlist.colorcode + FalchusPunishlist.nameFull + "§r\n" +
-	    				"§7You have been §cbanned§7!" +
-	    				"\n\n" +
-	    				"§7Reason: §e" + reason + "\n" +
-	    				"§7Until: §e" + (until < 0 ? "Permanent" : sdf.format(new Date(until))) + "\n" +
-	    				"\n" +
-	    				"§7§o" + FalchusPunishlist.discord
-	    			);
-	    			return;
-    			}
-    		}
-    	}
+    		if (!obj.has("ban")) return null;
+    		
+			JsonObject ban = obj.getAsJsonObject("ban");
+			if (!ban.has("active") || !ban.get("active").getAsBoolean()) return null;
+			
+			String reason = ban.has("reason")
+					? ban.get("reason").getAsString()
+					: "-";
+			long until = ban.has("until")
+					? ban.get("until").getAsLong()
+					: 0;
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			
+			return "§f§m--------------------§r" +
+					"\n\n" +
+					FalchusPunishlist.colorcode + FalchusPunishlist.nameFull + "§r\n" +
+					"§7You have been §cbanned§7!" +
+					"\n\n" +
+					"§7Reason: §e" + reason + "\n" +
+					"§7Until: §e" + (until < 0 ? "Permanent" : sdf.format(new Date(until))) + "\n" +
+					"\n" +
+					"§7§o" + FalchusPunishlist.discord;
+		});
 	}
 	
-	public static void mute(UUID uuid, String ip, Consumer<String> consumer) {
-    	String response = HTTPRequest.get("https://mc-api." + FalchusPunishlist.website + "/player/" + uuid.toString() + "?ip=" + ip);
-    	if (response != null) {
+	public static Promise<String> mute(UUID uuid, String ip) {
+		return Promise.supplyAsync(() -> {
+	    	String response = HTTPRequest.get("https://mc-api." + FalchusPunishlist.website + "/player/" + uuid.toString() + "?ip=" + ip);
+	    	if (response == null) return null;
+	    	
     		JsonObject obj = new Gson().fromJson(response, JsonObject.class);
-    		if (obj.has("mute")) {
-    			JsonObject mute = obj.getAsJsonObject("mute");
-    			if (mute.has("active") && mute.get("active").getAsBoolean()) {
-        			String reason = mute.has("reason")
-        					? mute.get("reason").getAsString()
-        					: "-";
-        			long until = mute.has("until")
-        					? mute.get("until").getAsLong()
-        					: 0;
-        			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        			
-        			consumer.accept(
-    		    		FalchusPunishlist.prefix + "\n" +
-	    				FalchusPunishlist.prefix + "§7You have been §cmuted§7!\n" +
-	    				FalchusPunishlist.prefix + "§7Reason: §e" + reason + "\n" +
-	    				FalchusPunishlist.prefix + "§7Until: §e" + (until < 0 ? "Permanent" : sdf.format(new Date(until))) + "\n" +
-	    				FalchusPunishlist.prefix
-        			);
-                	return;
-    			}
-    		}
-    	}
+    		if (!obj.has("mute")) return null;
+    		
+			JsonObject mute = obj.getAsJsonObject("mute");
+			if (!mute.has("active") || !mute.get("active").getAsBoolean()) return null;
+			
+			String reason = mute.has("reason")
+					? mute.get("reason").getAsString()
+					: "-";
+			long until = mute.has("until")
+					? mute.get("until").getAsLong()
+					: 0;
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			
+			return FalchusPunishlist.prefix + "\n" +
+					FalchusPunishlist.prefix + "§7You have been §cmuted§7!\n" +
+					FalchusPunishlist.prefix + "§7Reason: §e" + reason + "\n" +
+					FalchusPunishlist.prefix + "§7Until: §e" + (until < 0 ? "Permanent" : sdf.format(new Date(until))) + "\n" +
+					FalchusPunishlist.prefix;
+		});
 	}
 }

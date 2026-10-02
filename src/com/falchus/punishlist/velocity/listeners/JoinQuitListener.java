@@ -25,10 +25,11 @@ public class JoinQuitListener {
     	UUID uuid = player.getUniqueId();
     	String ip = player.getRemoteAddress().getAddress().getHostAddress();
 		
-    	return EventTask.async(() -> {
-	    	FalchusPunishlist.ban(uuid, ip, string -> {
+    	return EventTask.resumeWhenComplete(
+	    	FalchusPunishlist.ban(uuid, ip).thenAccept(string -> {
+	    		if (string == null) return;
 	    		event.setResult(ComponentResult.denied(AdventureUtils.legacy(string)));
-	    	});
-    	});
+	    	})
+    	);
     }
 }
