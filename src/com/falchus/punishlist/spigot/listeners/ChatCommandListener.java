@@ -33,11 +33,11 @@ public class ChatCommandListener implements Listener {
         		|| message.startsWith("/whisper")
         		|| message.startsWith("/reply")
         		|| message.startsWith("/r")) {
-        	FalchusPunishlist.mute(uuid, ip).thenAccept(string -> {
-        		if (string == null) return;
-        		player.sendMessage(string);
-        		event.setCancelled(true);
-        	});
+        	String string = FalchusPunishlist.mute(uuid, ip).join();
+        	if (string == null) return;
+        	
+    		player.sendMessage(string);
+    		event.setCancelled(true);
         }
     }
 }
