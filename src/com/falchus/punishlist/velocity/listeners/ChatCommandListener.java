@@ -27,18 +27,9 @@ public class ChatCommandListener {
     	String ip = player.getRemoteAddress().getAddress().getHostAddress();
         String message = event.getMessage();
         
-        if (message.startsWith("/")
-        		&& !message.startsWith("/message")
-        		&& !message.startsWith("/msg")
-        		&& !message.startsWith("/tell")
-        		&& !message.startsWith("/whisper")
-        		&& !message.startsWith("/reply")
-        		&& !message.startsWith("/r")) {
-        	return null;
-        }
-        
+        if (!FalchusPunishlist.isMute(message)) return null;
         return EventTask.resumeWhenComplete(
-	    	FalchusPunishlist.mute(uuid, ip).thenAccept(string -> {
+	    	FalchusPunishlist.get().mute(uuid, ip).thenAccept(string -> {
 	    		if (string == null) return;
 	    		player.sendMessage(AdventureUtils.legacy(string));
 	    		event.setResult(ChatResult.denied());

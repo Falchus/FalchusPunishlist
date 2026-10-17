@@ -36,7 +36,7 @@ public class Main extends JavaPlugin {
 		
 		SpigotTask.of(() -> {
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				FalchusPunishlist.ban(player.getUniqueId(), player.getAddress().getAddress().getHostAddress()).thenAccept(string -> {
+				FalchusPunishlist.get().ban(player.getUniqueId(), player.getAddress().getAddress().getHostAddress()).thenAccept(string -> {
 					if (string == null) return;
 					player.kickPlayer(string);
 				});
