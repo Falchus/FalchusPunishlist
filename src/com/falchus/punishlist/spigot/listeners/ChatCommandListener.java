@@ -29,7 +29,7 @@ public class ChatCommandListener implements Listener {
         String message = (String) packet.getMessage();
         
         if (!FalchusPunishlist.isMute(message)) return;
-    	String string = FalchusPunishlist.mute(uuid, ip).join();
+    	String string = FalchusPunishlist.get().mute(uuid, ip).join();
     	if (string == null) return;
     	
 		player.sendMessage(string);
