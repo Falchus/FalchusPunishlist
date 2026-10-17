@@ -22,8 +22,7 @@ public class FalchusPunishlist {
 	public static final String discord = "discord." + website;
 	
 	public static Promise<String> ban(UUID uuid, String ip) {
-		return Promise.supplyAsync(() -> {
-	    	String response = HTTPRequest.get("https://mc-api." + FalchusPunishlist.website + "/player/" + uuid.toString() + "?ip=" + ip);
+		return HTTPRequest.get("https://mc-api." + FalchusPunishlist.website + "/player/" + uuid.toString() + "?ip=" + ip).thenApply(response -> {
 	    	if (response == null) return null;
 	    	
     		JsonObject obj = new Gson().fromJson(response, JsonObject.class);
@@ -53,8 +52,7 @@ public class FalchusPunishlist {
 	}
 	
 	public static Promise<String> mute(UUID uuid, String ip) {
-		return Promise.supplyAsync(() -> {
-	    	String response = HTTPRequest.get("https://mc-api." + FalchusPunishlist.website + "/player/" + uuid.toString() + "?ip=" + ip);
+		return HTTPRequest.get("https://mc-api." + FalchusPunishlist.website + "/player/" + uuid.toString() + "?ip=" + ip).thenApply(response -> {
 	    	if (response == null) return null;
 	    	
     		JsonObject obj = new Gson().fromJson(response, JsonObject.class);
