@@ -6,8 +6,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import com.falchus.lib.minecraft.spigot.events.player.PlayerPacketInEvent;
+import com.falchus.lib.minecraft.spigot.packets.wrapper.chat.PacketChat;
 import com.falchus.punishlist.FalchusPunishlist;
 import com.falchus.punishlist.spigot.Main;
 
@@ -20,24 +21,18 @@ public class ChatCommandListener implements Listener {
     }
     
     @EventHandler
-    public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
+    public void onPlayerPacketIn(PlayerPacketInEvent event) {
+    	if (!(event.getPacket() instanceof PacketChat packet)) return;
     	Player player = event.getPlayer();
     	UUID uuid = player.getUniqueId();
     	String ip = player.getAddress().getAddress().getHostAddress();
-        String message = event.getMessage();
+        String message = (String) packet.getMessage();
         
-        if (!message.startsWith("/")
-        		|| message.startsWith("/message")
-        		|| message.startsWith("/msg")
-        		|| message.startsWith("/tell")
-        		|| message.startsWith("/whisper")
-        		|| message.startsWith("/reply")
-        		|| message.startsWith("/r")) {
-        	String string = FalchusPunishlist.mute(uuid, ip).join();
-        	if (string == null) return;
-        	
-    		player.sendMessage(string);
-    		event.setCancelled(true);
-        }
+        if (!FalchusPunishlist.isMute(message)) return;
+    	String string = FalchusPunishlist.mute(uuid, ip).join();
+    	if (string == null) return;
+    	
+		player.sendMessage(string);
+		event.setCancelled(true);
     }
 }

@@ -2,6 +2,7 @@ package com.falchus.punishlist;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 import com.falchus.lib.task.Promise;
@@ -20,6 +21,12 @@ public class FalchusPunishlist {
 	public static final String noPermissionMessage = prefix + "§cInsufficient permissions!";
 	public static final String website = "falchus.com";
 	public static final String discord = "discord." + website;
+	
+	private static final Set<String> muteCommands = Set.of(
+		"message", "msg", "tell", "whisper",
+		"reply", "r",
+		"me", "say"
+	);
 	
 	public static Promise<String> ban(UUID uuid, String ip) {
 		return HTTPRequest.get("https://mc-api." + FalchusPunishlist.website + "/player/" + uuid.toString() + "?ip=" + ip).thenApply(response -> {
@@ -75,5 +82,16 @@ public class FalchusPunishlist {
 					FalchusPunishlist.prefix + "§7Until: §e" + (until < 0 ? "Permanent" : sdf.format(new Date(until))) + "\n" +
 					FalchusPunishlist.prefix;
 		});
+	}
+	
+	public static boolean isMute(String message) {
+		message = message.toLowerCase().trim();
+		if (!message.startsWith("/")) return true;
+		
+		String cmd = message.substring(1).split(" ")[0];
+		if (cmd.contains(":")) {
+			cmd = cmd.substring(cmd.indexOf(':') + 1);
+		}
+		return muteCommands.contains(cmd);
 	}
 }
