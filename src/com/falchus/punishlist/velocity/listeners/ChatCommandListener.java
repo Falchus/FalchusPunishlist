@@ -20,7 +20,7 @@ public class ChatCommandListener {
     }
     
     @SuppressWarnings("deprecation")
-	@Subscribe
+	@Subscribe(priority = 100)
     public EventTask onChat(PlayerChatEvent event) {
     	Player player = event.getPlayer();
     	UUID uuid = player.getUniqueId();

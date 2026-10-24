@@ -19,7 +19,7 @@ public class JoinQuitListener {
     	plugin.getProxy().getEventManager().register(plugin, this);
     }
     
-    @Subscribe
+    @Subscribe(priority = 100)
     public EventTask onLogin(LoginEvent event) {
     	Player player = event.getPlayer();
     	UUID uuid = player.getUniqueId();

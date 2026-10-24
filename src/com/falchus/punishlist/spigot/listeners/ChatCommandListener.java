@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -22,13 +23,13 @@ public class ChatCommandListener implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
     }
     
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerPacketIn(PlayerPacketInEvent event) {
     	if (!(event.getPacket() instanceof PacketChat packet)) return;
     	check(event, event.getPlayer(), (String) packet.getMessage());
     }
     
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
     	check(event, event.getPlayer(), event.getMessage());
     }
