@@ -39,7 +39,7 @@ public class ChatCommandListener implements Listener {
     	UUID uuid = player.getUniqueId();
     	String ip = player.getAddress().getAddress().getHostAddress();
         
-    	String string = FalchusPunishlist.get().mute(uuid, ip).join();
+    	String string = FalchusPunishlist.mute(uuid, ip).join();
     	if (string == null) return;
     	
     	player.sendMessage(string);

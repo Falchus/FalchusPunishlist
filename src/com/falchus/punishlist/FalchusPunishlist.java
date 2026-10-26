@@ -1,6 +1,11 @@
 package com.falchus.punishlist;
 
 import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import com.falchus.lib.cache.Cache;
+import com.falchus.lib.task.Promise;
 
 import lombok.NonNull;
 
@@ -24,12 +29,50 @@ public class FalchusPunishlist {
 		"me", "say"
 	);
 	
+	private static final Cache<String, String> mute = Cache.of()
+			.expireAfterWrite(instance.cache(), TimeUnit.MILLISECONDS);
+	private static final Cache<String, String> ban = Cache.of()
+			.expireAfterWrite(instance.cache(), TimeUnit.MILLISECONDS);
+	
 	public static IFalchusPunishlist get() {
 		return instance;
 	}
 	
 	public static void set(@NonNull IFalchusPunishlist instance) {
+		mute.expireAfterWrite(instance.cache(), TimeUnit.MILLISECONDS);
+		ban.expireAfterWrite(instance.cache(), TimeUnit.MILLISECONDS);
+		
 		FalchusPunishlist.instance = instance;
+	}
+	
+	public static Promise<String> mute(@NonNull UUID uuid, @NonNull String ip) {
+		if (instance.cache() <= 0) {
+			return instance.mute(uuid, ip);
+		}
+		String key = uuid + "_" + ip;
+		String hit = mute.getIfPresent(key);
+		if (hit != null) {
+			return Promise.of(hit.isEmpty() ? null : hit);
+		}
+		return instance.mute(uuid, ip).thenApply(result -> {
+			mute.put(key, result == null ? "" : result);
+			return result;
+		});
+	}
+	
+	public static Promise<String> ban(@NonNull UUID uuid, @NonNull String ip) {
+		if (instance.cache() <= 0) {
+			return instance.ban(uuid, ip);
+		}
+		String key = uuid + "_" + ip;
+		String hit = ban.getIfPresent(key);
+		if (hit != null) {
+			return Promise.of(hit.isEmpty() ? null : hit);
+		}
+		return instance.ban(uuid, ip).thenApply(result -> {
+			ban.put(key, result == null ? "" : result);
+			return result;
+		});
 	}
 	
 	public static boolean isMute(String message) {

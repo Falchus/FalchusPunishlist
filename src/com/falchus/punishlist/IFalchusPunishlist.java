@@ -68,4 +68,8 @@ public interface IFalchusPunishlist {
 					FalchusPunishlist.prefix;
 		});
 	}
+	
+	default int cache() {
+		return 300000;
+	}
 }

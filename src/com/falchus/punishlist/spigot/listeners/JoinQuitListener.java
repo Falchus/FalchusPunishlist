@@ -25,7 +25,7 @@ public class JoinQuitListener implements Listener {
     	UUID uuid = event.getUniqueId();
     	String ip = event.getAddress().getHostAddress();
 		
-    	String string = FalchusPunishlist.get().ban(uuid, ip).join();
+    	String string = FalchusPunishlist.ban(uuid, ip).join();
     	if (string == null) return;
     	
 		event.setLoginResult(Result.KICK_BANNED);

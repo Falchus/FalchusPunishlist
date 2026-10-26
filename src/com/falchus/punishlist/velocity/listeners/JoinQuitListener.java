@@ -26,7 +26,7 @@ public class JoinQuitListener {
     	String ip = player.getRemoteAddress().getAddress().getHostAddress();
 		
     	return EventTask.resumeWhenComplete(
-	    	FalchusPunishlist.get().ban(uuid, ip).thenAccept(string -> {
+	    	FalchusPunishlist.ban(uuid, ip).thenAccept(string -> {
 	    		if (string == null) return;
 	    		event.setResult(ComponentResult.denied(AdventureUtils.legacy(string)));
 	    	})
