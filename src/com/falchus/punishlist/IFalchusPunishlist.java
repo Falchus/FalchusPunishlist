@@ -15,9 +15,9 @@ public interface IFalchusPunishlist {
 	
 	default Promise<String> ban(@NonNull UUID uuid, @NonNull String ip) {
 		return HTTPRequest.get("https://mc-api." + FalchusPunishlist.website + "/player/" + uuid.toString() + "?ip=" + ip).thenApply(response -> {
-	    	if (response == null) return null;
+	    	if (response == null || !response.isOk()) return null;
 	    	
-    		JsonObject obj = new Gson().fromJson(response, JsonObject.class);
+    		JsonObject obj = new Gson().fromJson(response.body(), JsonObject.class);
     		if (!obj.has("ban")) return null;
     		
 			JsonObject ban = obj.getAsJsonObject("ban");
@@ -45,9 +45,9 @@ public interface IFalchusPunishlist {
 	
 	default Promise<String> mute(@NonNull UUID uuid, @NonNull String ip) {
 		return HTTPRequest.get("https://mc-api." + FalchusPunishlist.website + "/player/" + uuid.toString() + "?ip=" + ip).thenApply(response -> {
-	    	if (response == null) return null;
+	    	if (response == null || !response.isOk()) return null;
 	    	
-    		JsonObject obj = new Gson().fromJson(response, JsonObject.class);
+    		JsonObject obj = new Gson().fromJson(response.body(), JsonObject.class);
     		if (!obj.has("mute")) return null;
     		
 			JsonObject mute = obj.getAsJsonObject("mute");
